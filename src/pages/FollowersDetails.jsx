@@ -30,8 +30,8 @@ function FollowersDetails() {
             <Navbar />
             <div className="container mt-4" style={{maxWidth:"680px"}}>
                 <h2 className="text-center mb-3">Followers</h2>
-                {followers.map((follower) => (
-                    <div key={follower._id} 
+                {followers?.map((follower) => (
+                    <div key={follower?._id} 
                     className="card mb-2 p-3"
                     style={{cursor:"pointer"}}
                     onClick={()=>navigate(`/profile/${follower._id}`)}>
@@ -39,17 +39,17 @@ function FollowersDetails() {
                             {follower?.profilePicture ?
                                 <img
                                     className="rounded-circle me-3"
-                                    src={follower.profilePicture}
+                                    src={follower?.profilePicture}
                                     style={{ width: "40px", height: "40px", objectFit:"cover"}}
                                 />
                                 :
                                 <div
                                 className="rounded-circle d-flex align-items-center justify-content-center bg-dark text-white fs-5 fw-semibold me-3" style={{width:"40px", height:"40px"}}>
-                                    {follower.username[0].toUpperCase()}
+                                    {follower?.username?.[0].toUpperCase()}
                                 </div>
                             }
                             <div className="flex-grow-1">
-                                <p className="mb-1">{follower.username}</p>
+                                <p className="mb-1">{follower?.username}</p>
                                 <p className="text-muted small mb-0">{follower?.bio || "No bio"}</p>
                             </div>
                         </div>
