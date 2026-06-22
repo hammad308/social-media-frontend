@@ -188,10 +188,10 @@ function Chat() {
                                         {conversation.participants?.[0]?.profilePicture ?
                                             <img src={conversation.participants?.[0]?.profilePicture} className="rounded-circle me-2" style={{ width: "40px", height: "40px", objectFit: "cover" }} />
                                             :
-                                            <div className="rounded-circle me-2 bg-dark d-flex align-items-center justify-content-center text-center text-white fw-semibold" style={{ height: "40px", width: "40px" }}>{conversation.participants[0].username[0].toUpperCase()}</div>
+                                            <div className="rounded-circle me-2 bg-dark d-flex align-items-center justify-content-center text-center text-white fw-semibold" style={{ height: "40px", width: "40px" }}>{conversation?.participants[0]?.username?.[0].toUpperCase()}</div>
                                         }
                                         <div className="flex-grow-1">
-                                            <p className="fw-semibold mb-1" style={{ fontSize: "13px" }}><strong>{conversation?.participants?.[0]?.username}</strong></p>
+                                            <p className="fw-semibold mb-1" style={{ fontSize: "13px" }}><strong>{conversation?.participants[0]?.username}</strong></p>
                                             <p className="mb-0" style={{ fontSize: "13px" }}>{conversation.lastMessage}</p>
                                             <p className="mb-0" style={{ fontSize: "11px" }}>{new Date(conversation.lastMessageAt).toLocaleString()}</p>
                                         </div>
