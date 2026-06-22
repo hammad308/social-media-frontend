@@ -49,7 +49,7 @@ function Navbar() {
                             <i className="bi bi-person me-1"></i>
                             Profile
                         </Link>
-                        {handleLogin && <button className="btn btn-danger me-2" onClick={handleLogout}>
+                        {handleLogin() && <button className="btn btn-danger me-2" onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right me-1"></i>
                             Logout
                         </button>}
