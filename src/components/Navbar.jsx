@@ -19,16 +19,16 @@ function Navbar() {
                     Social Media
                 </Link>
                 <button
-                    className="navbar-toggler"
+                    className="navbar-toggler m-2"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarContent"
                 >
-                    <span className="navbar-toggler-icon"></span>
+                    <span className="navbar-toggler-icon" ></span>
                 </button>
                 <div className="collapse navbar-collapse"
                     id="navbarContent">
-                    <div className="d-flex flex-column flex-lg-row gap-2 align-items-end ms-auto">
+                    <div className="d-flex flex-column flex-lg-row gap-3 align-items-end ms-auto">
                         <Link className="btn btn-outline-primary" to="/">
                             <i className="bi bi-house me-1"></i>
                             Home
