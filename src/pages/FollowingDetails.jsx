@@ -29,7 +29,7 @@ function FollowingDetails() {
         <>
             <Navbar />
             <div className="container mt-4" style={{ maxWidth: "680px" }}>
-                <h2 className="text-center mb-3">Followers</h2>
+                <h2 className="text-center mb-3">Following</h2>
                 {followings?.map((following) => (
                     <div key={following._id}
                         className="card mb-2 p-3"
