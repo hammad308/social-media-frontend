@@ -176,7 +176,7 @@ function Chat() {
             <div className="container-fluid" style={{ height: "calc(100vh - 90px)" }}>
                 <div className="row h-100">
                     <div className={`col-md-4 ${showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card border border-primary h-100 d-flex">
+                        <div className="card border border-secondary h-100 d-flex">
                             {conversations?.length > 0 && <div className="card-body flex-grow-1" style={{ height: "65vh", overflowY: "auto" }}>
                                 {conversations.map((conversation) => (
                                     < div key={conversation?._id} className={`
@@ -216,7 +216,7 @@ function Chat() {
                         </div>
                     </div>
                     <div className={`col-md-8 ${!showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card border border-primary rounded h-100 d-flex" >
+                        <div className="card border border-secondary rounded h-100 d-flex" >
                             {selectedConversation && (
                                 <div className="card-header bg-white">
                                     <div className="d-flex align-items-center">
