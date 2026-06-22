@@ -1,7 +1,7 @@
 import {io} from "socket.io-client";
 
 const socket=io(
-    import.meta.env.VITE_API_URL
+    "https://social-media-frontend-ochre-five.vercel.app"
 );
 
 export default socket;
