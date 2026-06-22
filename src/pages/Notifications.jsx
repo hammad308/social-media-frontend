@@ -9,10 +9,10 @@ function Notification() {
         const fetchNotifications = async () => {
             try {
                 const response = await axiosInstance.get("/notifications");
-                console.log(response.data.data);
-                setNotifications(response.data.data);
+                console.log(response?.data?.data);
+                setNotifications(response?.data?.data);
             } catch (error) {
-                setError(error.response.data.message || "Failed to Load Notifications")
+                setError(error?.response?.data?.message || "Failed to Load Notifications")
             } finally {
                 setLoading(false);
             }
@@ -41,6 +41,11 @@ function Notification() {
             setError(error?.response?.data?.message || "Failed to mark all messages as read");
         }
     }
+    if (loading) return <>
+        <Navbar />
+        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
+    </>
+    if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
         <>
             <Navbar />
