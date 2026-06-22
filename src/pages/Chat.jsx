@@ -238,7 +238,7 @@ function Chat() {
                                     (<div className="d-flex justify-content-center align-items-center h-100">
                                         <p className="text-muted text-center">Select a Conversation to start chatting</p>
                                     </div>
-                                    ) : messages.length === 0 ? (<p className="text-center">Start Chat</p>
+                                    ) : messages?.length === 0 ? (<p className="text-center">Start Chat</p>
                                     ) : (
                                         messages.map((message, index) => {
                                             const isSent = currentUser?._id?.toString() === message.sender?._id?.toString();
@@ -248,8 +248,8 @@ function Chat() {
                                             return (
                                                 <div key={message?._id} className={`d-flex mb-2 flex-column ${isSent ? "align-items-end" : "align-items-start"}`}>
                                                     <div className={`p-2 rounded ${isSent ? "bg-primary text-white" : "bg-light text-dark"}`} style={{ maxWidth: "70%", wordBreak: "break-word" }}>
-                                                        <p className=" mb-1">{message.content}</p>
-                                                        <p className=" small mb-0 text-muted" style={{ fontSize: "10px" }}>{new Date(message.createdAt).toLocaleString()}</p>
+                                                        <p className=" mb-1">{message?.content}</p>
+                                                        <p className=" small mb-0 text-muted" style={{ fontSize: "10px" }}>{new Date(message?.createdAt).toLocaleString()}</p>
                                                     </div>
                                                     {isLastSentMessage && <p className="mb-0 small text-end text-muted me-1" style={{ fontSize: "10px" }}>{isSeenByOther ? "Seen" : "Sent"}</p>}
                                                 </div>
