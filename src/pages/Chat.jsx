@@ -249,7 +249,7 @@ function Chat() {
                                                 <div key={message?._id} className={`d-flex mb-2 flex-column ${isSent ? "align-items-end" : "align-items-start"}`}>
                                                     <div className={`p-2 rounded ${isSent ? "bg-primary text-white" : "bg-light text-dark"}`} style={{ maxWidth: "70%", wordBreak: "break-word" }}>
                                                         <p className=" mb-1">{message?.content}</p>
-                                                        <p className=" small mb-0 text-muted" style={{ fontSize: "10px" }}></p>
+                                                        <p className=" small mb-0 text-muted" style={{ fontSize: "10px" }}>{new Date(message?.createdAt).toLocaleString()}</p>
                                                     </div>
                                                     {isLastSentMessage && <p className="mb-0 small text-end text-muted me-1" style={{ fontSize: "10px" }}>{isSeenByOther ? "Seen" : "Sent"}</p>}
                                                 </div>
