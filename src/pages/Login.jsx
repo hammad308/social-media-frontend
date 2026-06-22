@@ -77,7 +77,7 @@ function Login() {
                                 <div className="ws-pre-wrap fs-6 text-dark text-center">
                                     Don't have an account?      <Link className="text-decoration-none" to="/signup">Signup</Link>
                                 </div>
-                                <button className="btn btn-primary w-100 mt-3" onClick={() => window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`}>Continue with Google</button>
+                                <button className="btn btn-primary w-100 mt-3" onClick={() => window.location.href ="https://social-media-backend-m65i.onrender.com/api/auth/google"}>Continue with Google</button>
                             </div>
 
                         </div>
