@@ -68,6 +68,7 @@ function Home() {
         setImagePreview(null);
     };
     const handlePost = async () => {
+        setLoading(true);
         if (!content.trim() && !image) {
             setPostError("Write something or add an image.");
             return;
@@ -89,6 +90,9 @@ function Home() {
             setLoading(false);
         } catch (err) {
             setPostError(err.response?.data?.message || "Failed to create post");
+        }
+        finally {
+            setLoading(false);
         }
     };
 
@@ -113,6 +117,7 @@ function Home() {
     const loadMorePosts = async () => {
         if (!hasMoreRef.current || isLoadingMore.current) return;
         try {
+            setLoading(true);
             isLoadingMore.current = true;
             const response = await axiosInstance.get(`/posts/feed?cursor=${oldestPostDataRef.current}&limit=10`);
             const newPosts = response.data.data;
@@ -130,6 +135,8 @@ function Home() {
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to load more posts");
             isLoadingMore.current = false;
+        } finally {
+            setLoading(false);
         }
 
     }
@@ -148,6 +155,10 @@ function Home() {
             window.removeEventListener("scroll", handleScroll);
         }
     }, [])
+    if (loading) return <>
+        <Navbar />
+        <div className="container mt-4" style={{ maxWidth: "680px" }}></div>
+    </>
     return (
         <>
             <Navbar />
