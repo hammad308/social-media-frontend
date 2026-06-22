@@ -233,13 +233,9 @@ function Chat() {
                                     ) : (
                                         messages.map((message, index) => {
                                             const isSent = currentUser?._id?.toString() === message.sender?._id?.toString();
-                                            console.log(isSent);
                                             const isLastSentMessage = isSent && (index === messages.length - 1);
                                             const otherUserId = selectedConversation?.participants?.[0]._id;
                                             const isSeenByOther = message?.seenBy?.includes(otherUserId);
-                                            console.log(isSeenByOther);
-                                            console.log(isLastSentMessage);
-                                            console.log(messages.length);
                                             return (
                                                 <div key={message._id} className={`d-flex mb-2 flex-column ${isSent ? "align-items-end" : "align-items-start"}`}>
                                                     <div className={`p-2 rounded ${isSent ? "bg-primary text-white" : "bg-light text-dark"}`} style={{ maxWidth: "70%", wordBreak: "break-word" }}>
