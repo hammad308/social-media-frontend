@@ -23,6 +23,10 @@ function Search() {
             setLoading(false);
         }
     }
+    if (error) return <>
+        <Navbar />
+        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">{error}</p></div>
+    </>
     return (
         <>
             <Navbar />
@@ -48,7 +52,6 @@ function Search() {
                         {loading ? "Searching..." : "Search"}
                     </button>
                 </div>
-                {error && <p className="text-danger text-center">{error}</p>}
                 {searchResults.length === 0 && !loading && searchQuery && (
                     <p className="text-center text-muted">No Users Found</p>
                 )}

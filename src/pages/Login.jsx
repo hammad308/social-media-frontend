@@ -6,9 +6,11 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const handleLogin = async () => {
         try {
+            setLoading(true);
             const response = await axiosInstance.post(
                 "/auth/login",
                 {
@@ -22,7 +24,13 @@ function Login() {
         } catch (error) {
             setError(error.response.data.message);
         }
+        finally {
+            setLoading(false);
+        }
     }
+    if (loading) return <>
+        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
+    </>
     return (
         <>
             <div className="container">

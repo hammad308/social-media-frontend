@@ -24,7 +24,7 @@ function FollowingDetails() {
     }, [id]);
     if (followings?.length === 0) return <><Navbar /> <div className="container mt-4"><p className="text-center">No following. Follow users to see your following</p></div></>
     if (error) return <><Navbar /> <div className="container mt-4"> <p className="text-danger text-center">{error}</p></div> </>
-    if (loading) return <><Navbar /> <div className="container mt-4"><div className="d-flex align-items-center justify-content-center h-100"><p className="text-center">Loading</p></div></div></>
+    if (loading) return <><Navbar /> <div className="container mt-4"><div className="d-flex align-items-center justify-content-center h-100"><p className="text-center">Loading...</p></div></div></>
     return (
         <>
             <Navbar />

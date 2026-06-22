@@ -23,10 +23,13 @@ function Chat() {
     useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
+                setLoading(true);
                 const response = await axiosInstance.get("/users/me");
                 setCurrentUser(response.data.data);
             } catch (error) {
                 setError(error?.response?.data?.message || "Failed to load user info")
+            }finally{
+                setLoading(false);
             }
         }
         fetchCurrentUser();
@@ -34,6 +37,7 @@ function Chat() {
     useEffect(() => {
         const fetchConversations = async () => {
             try {
+                setLoading(true);
                 const response = await axiosInstance.get("/conversations");
                 const data = response.data.data;
                 setConversations(data);
@@ -56,6 +60,7 @@ function Chat() {
         const fetchMessages = async () => {
             if (!selectedConversation) return;
             try {
+                setLoading(true);
                 const response = await axiosInstance.get(`/conversations/${selectedConversation._id}/messages`);
                 const data = response.data.data;
                 setMessages([]);
@@ -68,6 +73,8 @@ function Chat() {
                 }
             } catch (error) {
                 setError(error?.response?.data?.messages || "Failed to Load Messages");
+            }finally{
+                setLoading(false);
             }
         }
         fetchMessages();
@@ -157,15 +164,17 @@ function Chat() {
             }
         });
         return () => socket.off("messagesSeenByUpdate")
-    }, [selectedConversation])
+    }, [selectedConversation]);
+    if (loading) return <>
+        <Navbar />
+        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
+    </>
+    if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
         <>
             <Navbar />
-            <div className="container-fluid" style={{ height: "calc(100vh - 65px)" }}>
-                {loading && <p className="text-muted mt-3">loading ....</p>}
-                {error && <p className="text-muted mt-3">{error}</p>}
+            <div className="container-fluid" style={{ height: "calc(100vh - 90px)" }}>
                 <div className="row h-100">
-
                     <div className={`col-md-4 ${showMobileChat ? "d-none d-md-block" : ""}`}>
                         <div className="card border border-primary h-100 d-flex">
                             {conversations?.length > 0 && <div className="card-body flex-grow-1" style={{ height: "70vh", overflowY: "auto" }}>

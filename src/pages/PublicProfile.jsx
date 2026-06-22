@@ -91,11 +91,11 @@ function PublicProfile() {
             </>
         )
     };
+    if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
         <>
             <Navbar />
             <div className="container mt-4" style={{ maxWidth: "680px" }}>
-                {error && (<p className="text-danger small mb-2">{error}</p>)}
                 <div className="card border border-dark">
                     <div className="card-body text-center">
                         <div className="mb-3 border-secondary bg-secondary"

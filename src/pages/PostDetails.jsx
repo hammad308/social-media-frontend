@@ -16,7 +16,7 @@ function PostDetail() {
                 const response = await axiosInstance.get(`/posts/${id}`);
                 setPost(response.data.data);
             } catch (error) {
-                setError(error?.response?.data?.message);
+                setError(error?.response?.data?.message || "Failed to Load Post");
             } finally {
                 setLoading(false);
             }

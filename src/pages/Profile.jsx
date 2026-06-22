@@ -8,6 +8,7 @@ function Profile() {
     const [user, setUser] = useState({});
     const [error, setError] = useState(null);
     const [showEditModel, setShowEditModel] = useState(false);
+    const [loading,setLoading] = useState(true);
     const navigate= useNavigate();
     useEffect(() => {
         const fetchProfile = async () => {
@@ -16,6 +17,8 @@ function Profile() {
                 setUser(response.data.data);
             } catch (error) {
                 setError(error?.response?.data?.message || "Failed to load Profile");
+            }finally{
+                setLoading(false);
             }
         }
         fetchProfile();
@@ -23,6 +26,11 @@ function Profile() {
     const handleUpdateProfile = (updatedUser) => {
         setUser(updatedUser);
     }
+    if (loading) return <>
+        <Navbar />
+        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
+    </>
+    if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
         <>
             <Navbar />

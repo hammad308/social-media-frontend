@@ -7,8 +7,10 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [error, setError] = useState(null);
+    const [loading,setLoading]= useState(false);
     const handleSignup = async () => {
         try {
+            setLoading(true);
             const response = await axiosInstance.post(
                 "/auth/signup",
                 {
@@ -21,9 +23,14 @@ function Signup() {
             navigate("/");
         } catch (error) {
             setError(error.response.data.message);
+        }finally{
+            setLoading(false);
         }
 
     }
+    if (loading) return <>
+        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
+    </>
     return (
         <>
             <div className="container">
