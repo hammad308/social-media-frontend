@@ -24,11 +24,14 @@ function Home() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
+                setLoading(true);
                 const response = await axiosInstance.get("/users/me");
                 const user = response.data.data;
                 setUser(user);
             } catch (error) {
                 setError(error?.response?.data?.message || "Failed to load User Information");
+            } finally {
+                setLoading(false);
             }
         }
         fetchUser();
@@ -42,6 +45,7 @@ function Home() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
+                setLoading(true);
                 const response = await axiosInstance.get("/posts/feed");
                 const data = response.data.data;
                 setPosts(data);
@@ -68,12 +72,12 @@ function Home() {
         setImagePreview(null);
     };
     const handlePost = async () => {
-        setLoading(true);
         if (!content.trim() && !image) {
             setPostError("Write something or add an image.");
             return;
         }
         try {
+            setLoading(true);
             const formData = new FormData();
             if (content.trim()) {
                 formData.append("content", content);
@@ -117,7 +121,6 @@ function Home() {
     const loadMorePosts = async () => {
         if (!hasMoreRef.current || isLoadingMore.current) return;
         try {
-            setLoading(true);
             isLoadingMore.current = true;
             const response = await axiosInstance.get(`/posts/feed?cursor=${oldestPostDataRef.current}&limit=10`);
             const newPosts = response.data.data;
@@ -135,9 +138,7 @@ function Home() {
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to load more posts");
             isLoadingMore.current = false;
-        } finally {
-            setLoading(false);
-        }
+        } 
 
     }
     const handleScroll = () => {
@@ -157,8 +158,9 @@ function Home() {
     }, [])
     if (loading) return <>
         <Navbar />
-        <div className="container mt-4" style={{ maxWidth: "680px" }}></div>
+        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
     </>
+    if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
         <>
             <Navbar />
@@ -166,14 +168,14 @@ function Home() {
                 <div className="card mb-4 shadow-sm border-0">
                     <div className="card-body">
                         <div className="d-flex align-items-center mb-3">
-                            {user.profilePicture
+                            {user?.profilePicture
                                 ? <img src={user?.profilePicture} className="rounded-circle me-3" style={{ width: "42px", height: "42px", objectFit: "cover" }} />
                                 :
                                 <div
                                     className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
                                     style={{ width: "42px", height: "42px", fontSize: "16px", fontWeight: "600", flexShrink: 0 }}
                                 >
-                                    {user.username?.[0].toUpperCase()}
+                                    {user?.username?.[0].toUpperCase()}
                                 </div>
                             }
                             <textarea
@@ -228,13 +230,13 @@ function Home() {
                         </div>
                     </div>
                 </div>
-                {error && <p className="text-danger text-center">{error}</p>}
+                
 
-                {posts.length === 0 && !error && (
+                {posts?.length === 0 && !error && (
                     <p className="text-center text-muted mt-5">No posts yet. Be the first to post!</p>
                 )}
 
-                {posts.map((post) => (
+                {posts?.map((post) => (
                     <div key={post._id} className="card mb-3 shadow-sm" style={{ cursor: "pointer" }} onClick={() => navigate(`posts/${post._id}`)}>
                         <div className="card-body">
                             <div className="d-flex align-items-center mb-3" onClick={(e) => {
