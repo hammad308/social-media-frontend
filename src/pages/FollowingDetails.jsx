@@ -15,7 +15,7 @@ function FollowingDetails() {
                 const response = await axiosInstance.get(`users/following/${id}`);
                 setFollowings(response?.data?.data?.following);
             } catch (error) {
-                setError(error?.response?.data?.message || "Failed to load Followers")
+                setError(error?.response?.data?.message || "Failed to load Following")
             } finally {
                 setLoading(false);
             }
