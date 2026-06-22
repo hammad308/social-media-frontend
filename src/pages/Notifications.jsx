@@ -9,7 +9,6 @@ function Notification() {
         const fetchNotifications = async () => {
             try {
                 const response = await axiosInstance.get("/notifications");
-                console.log(response?.data?.data);
                 setNotifications(response?.data?.data);
             } catch (error) {
                 setError(error?.response?.data?.message || "Failed to Load Notifications")

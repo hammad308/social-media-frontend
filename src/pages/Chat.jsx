@@ -42,7 +42,7 @@ function Chat() {
                 const data = response.data.data;
                 setConversations(data);
                 if (conversationId) {
-                    const initialChat = data.find(c => c._id === conversationId);
+                    const initialChat = data.find(c => c?._id === conversationId);
                     if (initialChat) {
                         setSelectedConversation(initialChat);
                         setShowMobileChat(true);
@@ -61,7 +61,7 @@ function Chat() {
             if (!selectedConversation) return;
             try {
                 setLoading(true);
-                const response = await axiosInstance.get(`/conversations/${selectedConversation._id}/messages`);
+                const response = await axiosInstance.get(`/conversations/${selectedConversation?._id}/messages`);
                 const data = response.data.data;
                 setMessages([]);
                 setHasMore(true);
@@ -88,15 +88,15 @@ function Chat() {
         try {
             isLoadingMore.current = true;
             const scrollHeightBefore = messagesContainer.current.scrollHeight;
-            const response = await axiosInstance.get(`/conversations/${selectedConversation._id}/messages?cursor=${oldestMessageData}&limit=10`);
+            const response = await axiosInstance.get(`/conversations/${selectedConversation?._id}/messages?cursor=${oldestMessageData}&limit=10`);
             const older = response.data.data.reverse();
             if (older.length === 0) {
                 setHasMore(false);
                 isLoadingMore.current = false; return;
             }
             setMessages((prev) => {
-                const existingIds = new Set(prev.map(m => m._id));
-                const filtered = older.filter(m => !existingIds.has(m._id));
+                const existingIds = new Set(prev.map(m => m?._id));
+                const filtered = older.filter(m => !existingIds.has(m?._id));
                 return [...filtered, ...prev]
             })
             setOldestMessageData(older[0].createdAt);
@@ -116,25 +116,25 @@ function Chat() {
     useEffect(() => {
         if (!selectedConversation) return;
         socket.off("receiveMessage");
-        socket.emit("joinConversation", selectedConversation._id);
+        socket.emit("joinConversation", selectedConversation?._id);
         socket.on("receiveMessage", (message) => {
             setMessages((prev) => {
-                const exists = prev.some((m) => m._id === message._id);
+                const exists = prev.some((m) => m?._id === message?._id);
                 if (exists) return prev;
                 return [...prev, message];
             });
         });
         return () => {
-            socket.emit("leaveConversation", selectedConversation._id)
+            socket.emit("leaveConversation", selectedConversation?._id)
             socket.off("receiveMessage");
         };
     }, [selectedConversation]);
     const handleSendMessage = () => {
         if (!newMessage.trim() || !selectedConversation || !currentUser) return;
         socket.emit("sendMessage", {
-            conversationId: selectedConversation._id,
+            conversationId: selectedConversation?._id,
             content: newMessage,
-            senderId: currentUser._id
+            senderId: currentUser?._id
         });
         setNewMessage("");
     }
@@ -148,13 +148,13 @@ function Chat() {
     useEffect(() => {
         if (!selectedConversation || !currentUser) return;
         socket.emit("markSeen", {
-            conversationId: selectedConversation._id,
-            userId: currentUser._id
+            conversationId: selectedConversation?._id,
+            userId: currentUser?._id
         });
     }, [selectedConversation, currentUser, messages?.length]);
     useEffect(() => {
         socket.on("messagesSeenUpdate", ({ conversationId, seenBy }) => {
-            if (selectedConversation._id === conversationId) {
+            if (selectedConversation?._id === conversationId) {
                 setMessages((prev) => (
                     prev.map((msg) => ({
                         ...prev,
@@ -179,14 +179,14 @@ function Chat() {
                         <div className="card border border-primary h-100 d-flex">
                             {conversations?.length > 0 && <div className="card-body flex-grow-1" style={{ height: "70vh", overflowY: "auto" }}>
                                 {conversations.map((conversation) => (
-                                    < div key={conversation._id} className={`
+                                    < div key={conversation?._id} className={`
                                         d-flex
                                         gap-2 
                                         rounded 
                                         shadow-sm 
                                         p-3 
                                         mt-2
-                                        ${selectedConversation?._id === conversation._id ? "bg-primary text-white" : "bg-white"}
+                                        ${selectedConversation?._id === conversation?._id ? "bg-primary text-white" : "bg-white"}
                                         `}
                                         onClick={() => {
                                             setSelectedConversation(conversation);
@@ -243,10 +243,10 @@ function Chat() {
                                         messages.map((message, index) => {
                                             const isSent = currentUser?._id?.toString() === message.sender?._id?.toString();
                                             const isLastSentMessage = isSent && (index === messages.length - 1);
-                                            const otherUserId = selectedConversation?.participants?.[0]._id;
+                                            const otherUserId = selectedConversation?.participants?.[0]?._id;
                                             const isSeenByOther = message?.seenBy?.includes(otherUserId);
                                             return (
-                                                <div key={message._id} className={`d-flex mb-2 flex-column ${isSent ? "align-items-end" : "align-items-start"}`}>
+                                                <div key={message?._id} className={`d-flex mb-2 flex-column ${isSent ? "align-items-end" : "align-items-start"}`}>
                                                     <div className={`p-2 rounded ${isSent ? "bg-primary text-white" : "bg-light text-dark"}`} style={{ maxWidth: "70%", wordBreak: "break-word" }}>
                                                         <p className=" mb-1">{message.content}</p>
                                                         <p className=" small mb-0 text-muted" style={{ fontSize: "10px" }}>{new Date(message.createdAt).toLocaleString()}</p>

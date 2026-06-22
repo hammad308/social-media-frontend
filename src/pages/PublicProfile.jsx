@@ -55,7 +55,6 @@ function PublicProfile() {
     }
     const handleMessage = async (userId) => {
         try {
-            console.log(userId);
             const response = await axiosInstance.post(`/conversations/${userId}`);
             const conversation = response.data.data;
             navigate(`/chat?conversationId=${conversation._id}`);
