@@ -157,7 +157,7 @@ function Chat() {
             if (selectedConversation?._id === conversationId) {
                 setMessages((prev) => (
                     prev.map((msg) => ({
-                        ...prev,
+                        ...msg,
                         seenBy: msg.seenBy?.includes(seenBy) ? msg.seenBy : [...(msg.seenBy || []), seenBy]
                     }))
                 ))
