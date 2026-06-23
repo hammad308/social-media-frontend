@@ -95,7 +95,7 @@ function PublicProfile() {
         <>
             <Navbar />
             <div className="container mt-4" style={{ maxWidth: "680px" }}>
-                <div className="card border border-dark">
+                <div className="card border border-none">
                     <div className="card-body text-center">
                         <div className="mb-3 border-secondary bg-secondary"
                             style={{
