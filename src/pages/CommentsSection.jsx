@@ -80,21 +80,21 @@ function CommentsSection({ postId }) {
             laodMoreComments();
         }
     }
+    if(error) return <><p className="text-primary">{error}</p></>
     return (
         <>
             <div className="container mt-4">
-                {error && <p className="text-primary">{error}</p>}
-                {comments.length > 0 &&
+                {comments?.length > 0 &&
                     <div className=" mb-3" onScroll={handleScroll} style={{ maxHeight: "400px", overflowY: "auto" }}>
-                        {comments.map((comment) => (
-                            <div key={comment._id} className="d-flex gap-2 mb-4">
-                                {comment.author.profilePicture ?
-                                    <img src={comment.author.profilePicture} className="rounded-circle me-2" style={{ width: "40px", height: "40px", objectFit: "cover" }} /> :
-                                    <p className="rounded-circle me-2 bg-primary d-flex justify-content-center align-items-center text-center text-white" style={{ width: "40px", height: "40px" }}>{comment.author.username?.[0]?.toUpperCase()}</p>}
+                        {comments?.map((comment) => (
+                            <div key={comment?._id} className="d-flex gap-2 mb-4">
+                                {comment?.author?.profilePicture ?
+                                    <img src={comment?.author?.profilePicture} className="rounded-circle me-2" style={{ width: "40px", height: "40px", objectFit: "cover" }} /> :
+                                    <p className="rounded-circle me-2 bg-primary d-flex justify-content-center align-items-center text-center text-white" style={{ width: "40px", height: "40px" }}>{comment?.author?.username?.[0]?.toUpperCase()}</p>}
                                 <div className="flex-grow-1">
-                                    <p className="mb-1" style={{ fontSize: "13px" }}><strong>{comment.author?.username}</strong></p>
-                                    <p className="mb-0 text-muted" style={{ fontSize: "13px" }}>{comment.content}</p>
-                                    <p className="mb-0 text-muted" style={{ fontSize: "11px" }}>{new Date(comment.createdAt).toLocaleString()}</p>
+                                    <p className="mb-1" style={{ fontSize: "13px" }}><strong>{comment?.author?.username}</strong></p>
+                                    <p className="mb-0 text-muted" style={{ fontSize: "13px" }}>{comment?.content}</p>
+                                    <p className="mb-0 text-muted" style={{ fontSize: "11px" }}>{new Date(comment?.createdAt).toLocaleString()}</p>
                                 </div>
                             </div>
                         ))}
