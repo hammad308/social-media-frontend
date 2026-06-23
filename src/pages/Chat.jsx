@@ -202,7 +202,7 @@ function Chat() {
                                         <div className="flex-grow-1">
                                             <p className="fw-semibold mb-1" style={{ fontSize: "13px" }}><strong>{conversation?.participants[0]?.username}</strong></p>
                                             <p className="mb-0" style={{ fontSize: "13px" }}>{conversation?.lastMessage}</p>
-                                            <p className="mb-0" style={{ fontSize: "11px" }}>{(new Date(conversation?.lastMessageAt || "")?.toLocaleString())|| ""}</p>
+                                            <p className="mb-0" style={{ fontSize: "11px" }}>{conversation?.lastMessageAt?(new Date(conversation?.lastMessageAt).toLocaleString()): ""}</p>
                                         </div>
                                     </div>
                                 )
