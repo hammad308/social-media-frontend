@@ -173,10 +173,10 @@ function Chat() {
     return (
         <>
             <Navbar />
-            <div className="container-fluid" style={{ height: "calc(100vh - 90px)" }}>
+            <div className="container-fluid mt-4" style={{ height: "calc(100vh - 90px)" }}>
                 <div className="row h-100">
                     <div className={`col-md-4 ${showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card border border-0 border-md-secondary h-100 d-flex">
+                        <div className="card border-0 border-md border-secondary h-100 d-flex">
                             {conversations?.length > 0 && <div className="card-body flex-grow-1" style={{ maxHeight: "67vh", overflowY: "auto" }}>
                                 {conversations.map((conversation) => (
                                     < div key={conversation?._id} className={`
@@ -216,7 +216,7 @@ function Chat() {
                         </div>
                     </div>
                     <div className={`col-md-8 ${!showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card border border-0 border-md-secondary rounded h-100 d-flex" >
+                        <div className="card border-0 border-md border-secondary rounded h-100 d-flex" >
                             {selectedConversation && (
                                 <div className="card-header bg-white">
                                     <div className="d-flex align-items-center">
@@ -259,7 +259,7 @@ function Chat() {
                                     )}
                                 <div ref={messagesEndRef} />
                             </div>
-                            {selectedConversation && (<div className="card-footer bg-white d-flex justify-content-between gap-2" style={{maxHeight:"13vh"}} >
+                            {selectedConversation && (<div className="card-footer border-0 border-md border-secondary bg-white d-flex justify-content-between gap-2" style={{maxHeight:"13vh"}} >
                                 <input
                                     className="form-control rounded-pill"
                                     value={newMessage}
