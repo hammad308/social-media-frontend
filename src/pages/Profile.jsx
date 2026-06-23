@@ -35,9 +35,8 @@ function Profile() {
         <>
             <Navbar />
             <div className="container mt-4" style={{maxWidth:"680px"}}>
-                {error && (<p className="text-danger small mb-2">{error}</p>)}
-                <div className="card bg-light text-secondary">
-                    <div className="card-body border border-secondary rounded">
+                <div className="card bg-light border-0">
+                    <div className="card-body ">
                         <div className="mb-3 bg-secondary"
                             style={{
                                 height: "200px",
@@ -49,7 +48,7 @@ function Profile() {
                             }} />
                         <div className="text-center">
                             <div style={{ marginTop: "-60px", marginBottom: "20px" }}>
-                                {user.profilePicture
+                                {user?.profilePicture
                                     ?
                                     <img
                                         src={user.profilePicture}
@@ -62,29 +61,29 @@ function Profile() {
                                     </div>
                                 }
                             </div>
-                            <h3 className="mb-2">{user.username}</h3>
-                            <p className=" mb-3">{user.bio || "No Bio Yet"}</p>
+                            <h3 className="mb-2">{user?.username}</h3>
+                            <p className=" mb-3">{user?.bio || "No Bio Yet"}</p>
                             <hr className="my-3 " />
                             <div className="row mb-3 d-flex justify-content-between gap-2">
-                                <div className="col border border-secondary rounded ms-3" style={{maxWidth:"120px", maxHeight:"60px", cursor:"pointer"}} onClick={()=>navigate(`/followers/${user._id}`)}>
-                                    <h5 className="mb-0">{user.followers?.length || 0}</h5>
+                                <div className="col ms-3" style={{maxWidth:"120px", maxHeight:"60px", cursor:"pointer"}} onClick={()=>navigate(`/followers/${user._id}`)}>
+                                    <h5 className="mb-0">{user?.followers?.length || 0}</h5>
                                     <p className="small">Followers</p>
                                 </div>
-                                <div className="col border border-secondary rounded" style={{maxWidth:"120px", maxHeight:"60px", cursor:"pointer"}} onClick={()=>navigate(`/following/${user._id}`)}>
-                                    <h5 className="mb-0">{user.following?.length || 0}</h5>
+                                <div className="col" style={{maxWidth:"120px", maxHeight:"60px", cursor:"pointer"}} onClick={()=>navigate(`/following/${user._id}`)}>
+                                    <h5 className="mb-0">{user?.following?.length || 0}</h5>
                                     <p className="small">Following</p>
                                 </div>
-                                <div className="col border border-secondary rounded me-3" style={{maxWidth:"120px", maxHeight:"60px" }}>
+                                <div className="col me-3" style={{maxWidth:"120px", maxHeight:"60px" }}>
                                     <h5 className="mb-0">{user?.posts?.length || 0}</h5>
                                     <p className="small">Posts</p>
                                 </div>
                             </div>
-                            <button className="btn btn-outline-secondary btn-lg"
+                            <button className="btn btn-outline-dark"
                                 onClick={() => setShowEditModel(true)}> Edit Profile</button>
                         </div>
                     </div>
                 </div>
-                <h3 className="mb-3 mt-3 text-center text-secondary">Your Posts</h3>
+                <h3 className="mb-3 mt-3 text-center">Your Posts</h3>
                 {user?.posts?.length === 0 && !error && (
                     <p className="text-center text-muted mt-5 ">No posts yet. Be the first to post!</p>
                 )}
