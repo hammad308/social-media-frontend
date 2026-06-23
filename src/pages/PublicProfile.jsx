@@ -95,7 +95,7 @@ function PublicProfile() {
         <>
             <Navbar />
             <div className="container mt-4" style={{ maxWidth: "680px" }}>
-                <div className="card border border-none">
+                <div className="card border-0">
                     <div className="card-body text-center">
                         <div className="mb-3 border-secondary bg-secondary"
                             style={{
@@ -119,15 +119,15 @@ function PublicProfile() {
                             <p>{user.bio || "No Bio"}</p>
                             <hr className="my-2" />
                             <div className="row m-2">
-                                <div className="col border border-dark rounded me-2" style={{ cursor: "pointer" }} onClick={() => navigate(`/followers/${user.id}`)}>
+                                <div className="col me-2" style={{ cursor: "pointer" }} onClick={() => navigate(`/followers/${user.id}`)}>
                                     <h5>{user?.followersCount || 0}</h5>
                                     <p>Followers</p>
                                 </div>
-                                <div className="col border border-dark rounded me-2" style={{ cursor: "pointer" }} onClick={() => navigate(`/following/${user.id}`)}>
+                                <div className="col me-2" style={{ cursor: "pointer" }} onClick={() => navigate(`/following/${user.id}`)}>
                                     <h5>{user?.followingCount || 0}</h5>
                                     <p>Following</p>
                                 </div>
-                                <div className="col border border-dark rounded me-2">
+                                <div className="col me-2">
                                     <h5>{user?.posts?.length || 0}</h5>
                                     <p>Posts</p>
                                 </div>
