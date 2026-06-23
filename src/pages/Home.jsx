@@ -140,6 +140,7 @@ function Home() {
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to load more posts");
             isLoadingMore.current = false;
+        }finally{
             setPostsLoading(false);
         }
 
@@ -303,7 +304,7 @@ function Home() {
                     </div>
                 ))}
             </div>
-            {postsLaoding && <p className="text-small text-muted">Loading...</p>}
+            {postsLaoding && <p className="text-center text-muted">Loading...</p>}
 
         </>
     );
