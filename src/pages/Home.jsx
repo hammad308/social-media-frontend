@@ -21,6 +21,7 @@ function Home() {
     const [expandedComments, setExpandedComments] = useState(null);
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
+    const [postsLaoding,setPostsLoading] = useState(false);
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -121,6 +122,7 @@ function Home() {
     const loadMorePosts = async () => {
         if (!hasMoreRef.current || isLoadingMore.current) return;
         try {
+            setPostsLoading(true);
             isLoadingMore.current = true;
             const response = await axiosInstance.get(`/posts/feed?cursor=${oldestPostDataRef.current}&limit=10`);
             const newPosts = response.data.data;
@@ -138,7 +140,8 @@ function Home() {
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to load more posts");
             isLoadingMore.current = false;
-        } 
+            setPostsLoading(false);
+        }
 
     }
     const handleScroll = () => {
@@ -160,7 +163,7 @@ function Home() {
         <Navbar />
         <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
     </>
-    if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
+    if (error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
         <>
             <Navbar />
@@ -230,14 +233,14 @@ function Home() {
                         </div>
                     </div>
                 </div>
-                
+
 
                 {posts?.length === 0 && !error && (
                     <p className="text-center text-muted mt-5">No posts yet. Be the first to post!</p>
                 )}
 
                 {posts?.map((post) => (
-                    <div key={post._id} className="card mb-3 shadow-sm" style={{ cursor: "pointer" }} onClick={() => navigate(`posts/${post._id}`)}>
+                    <div key={post?._id} className="card mb-3 shadow-sm" style={{ cursor: "pointer" }} onClick={() => navigate(`posts/${post._id}`)}>
                         <div className="card-body">
                             <div className="d-flex align-items-center mb-3" onClick={(e) => {
                                 navigate(`/profile/${post?.author?._id}`)
@@ -250,7 +253,7 @@ function Home() {
                                 {!post.author.profilePicture && <div
                                     className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2"
                                     style={{ width: "40px", height: "40px", fontSize: "15px", fontWeight: "600", flexShrink: 0 }} >
-                                    {post.author.username?.[0].toUpperCase()}
+                                    {post?.author.username?.[0].toUpperCase()}
                                 </div>}
                                 <div>
                                     <p className="mb-0 fw-semibold" style={{ fontSize: "14px" }}>{post.author.username}</p>
@@ -269,7 +272,7 @@ function Home() {
                                     overflow: "hidden",
                                     textOverflow: "ellipsis"
 
-                                }}>{post.content}</p>
+                                }}>{post?.content}</p>
                             )}
                             {post.image && (
                                 <img
@@ -300,6 +303,8 @@ function Home() {
                     </div>
                 ))}
             </div>
+            {postsLaoding && <p className="text-small text-muted">Loading...</p>}
+
         </>
     );
 }
