@@ -35,7 +35,7 @@ function Profile() {
         <>
             <Navbar />
             <div className="container mt-4" style={{maxWidth:"680px"}}>
-                <div className="card bg-light border-0">
+                <div className="card border-0">
                     <div className="card-body ">
                         <div className="mb-3 bg-secondary"
                             style={{
