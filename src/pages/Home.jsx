@@ -21,7 +21,7 @@ function Home() {
     const [expandedComments, setExpandedComments] = useState(null);
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
-    const [postsLaoding,setPostsLoading] = useState(false);
+    const [postsLaoding, setPostsLoading] = useState(false);
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -140,7 +140,7 @@ function Home() {
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to load more posts");
             isLoadingMore.current = false;
-        }finally{
+        } finally {
             setPostsLoading(false);
         }
 
@@ -173,11 +173,12 @@ function Home() {
                     <div className="card-body">
                         <div className="d-flex align-items-center mb-3">
                             {user?.profilePicture
-                                ? <img src={user?.profilePicture} className="rounded-circle me-3" style={{ width: "42px", height: "42px", objectFit: "cover" }} />
+                                ? <img src={user?.profilePicture} className="rounded-circle me-3" style={{ width: "42px", height: "42px", objectFit: "cover", cursor: "pointer" }} onClick={() => navigate("/profile")} />
                                 :
                                 <div
                                     className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
-                                    style={{ width: "42px", height: "42px", fontSize: "16px", fontWeight: "600", flexShrink: 0 }}
+                                    style={{ width: "42px", height: "42px", fontSize: "16px", fontWeight: "600", flexShrink: 0, cursor: "pointer" }}
+                                    onClick={() => navigate("/profile")}
                                 >
                                     {user?.username?.[0].toUpperCase()}
                                 </div>

@@ -30,7 +30,8 @@ function App() {
         <Route path="/profile" element={
           <ProtectedRoute>
             <Profile />
-          </ProtectedRoute>}></Route>
+          </ProtectedRoute>}>
+        </Route>
         <Route path="/notifications" element={
           <ProtectedRoute>
             <Notification />
