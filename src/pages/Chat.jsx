@@ -259,7 +259,7 @@ function Chat() {
                                     )}
                                 <div ref={messagesEndRef} />
                             </div>
-                            {selectedConversation && (<div className="card-footer border-0 border-md bg-white d-flex justify-content-between gap-2" style={{maxHeight:"5vh"}} >
+                            {selectedConversation && (<div className="card-footer border-0 border-md bg-white d-flex justify-content-between gap-2 mb-0" >
                                 <input
                                     className="form-control rounded-pill"
                                     value={newMessage}
