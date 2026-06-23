@@ -176,7 +176,7 @@ function Chat() {
             <div className="container-fluid mt-4" style={{ height: "calc(100vh - 90px)" }}>
                 <div className="row h-100">
                     <div className={`col-md-4 ${showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card border-0 border-md h-100 d-flex">
+                        <div className="card border-0 border-md-1  h-100 d-flex">
                             {conversations?.length > 0 && <div className="card-body flex-grow-1" style={{ maxHeight: "67vh", overflowY: "auto" }}>
                                 {conversations.map((conversation) => (
                                     < div key={conversation?._id} className={`
@@ -216,7 +216,7 @@ function Chat() {
                         </div>
                     </div>
                     <div className={`col-md-8 ${!showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card border-0 border-md rounded h-100 d-flex" >
+                        <div className="card border-0 border-md-1  rounded h-100 d-flex" >
                             {selectedConversation && (
                                 <div className="card-header bg-white">
                                     <div className="d-flex align-items-center">
@@ -259,7 +259,7 @@ function Chat() {
                                     )}
                                 <div ref={messagesEndRef} />
                             </div>
-                            {selectedConversation && (<div className="card-footer border-0 border-md bg-white d-flex justify-content-between gap-2 mb-0" >
+                            {selectedConversation && (<div className="card-footer border-0 border-md-1 bg-white d-flex justify-content-between gap-2 mb-0" >
                                 <input
                                     className="form-control rounded-pill"
                                     value={newMessage}
