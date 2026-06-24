@@ -87,7 +87,7 @@ function CommentsSection({ postId }) {
     if(error) return <><p className="text-primary">{error}</p></>
     return (
         <>
-            <div className="container mt-4">
+            <div className="container mt-4" onClick={(e)=>e.stopPropagation()}>
                 {comments?.length > 0 &&
                     <div className=" mb-3" onScroll={handleScroll} style={{ maxHeight: "400px", overflowY: "auto" }}>
                         {comments?.map((comment) => (
