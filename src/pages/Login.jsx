@@ -28,9 +28,6 @@ function Login() {
             setLoading(false);
         }
     }
-    if (loading) return <>
-        <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
-    </>
     return (
         <>
             <div className="container">
@@ -68,9 +65,10 @@ function Login() {
                                 <button
                                     className="btn btn-dark w-100 mb-3"
                                     onClick={handleLogin}
+                                    disabled={loading}
                                 >
 
-                                    Login
+                                    {loading?"logging in":"Login"}
 
                                 </button>
                                 {error && <p className="text-danger text-center">{error}</p>}

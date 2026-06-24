@@ -13,6 +13,9 @@ function PublicProfile() {
     const navigate = useNavigate();
     const [expandedComments, setExpandedComments] = useState(null);
     const [posts,setPosts] = useState(null);
+    const [following,setFollowing] = useState(false);
+    const [unfollowing,setUnfollowing] = useState(false);
+    const [messaging,setMessaging]= useState(false);
     useEffect(() => {
         const fetchProfile = async () => {
             try {
@@ -32,6 +35,7 @@ function PublicProfile() {
     }, [userId]);
     const handleFollow = async () => {
         try {
+            setFollowing(true);
             await axiosInstance.post(`/users/${userId}/follow`);
             setIsFollowing(true);
             setUser({
@@ -40,10 +44,13 @@ function PublicProfile() {
             })
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to Follow");
+        }finally{
+            setFollowing(false);
         }
     }
     const handleUnfollow = async () => {
         try {
+            setUnfollowing(true);
             await axiosInstance.delete(`/users/${userId}/follow`);
             setIsFollowing(false);
             setUser({
@@ -52,16 +59,22 @@ function PublicProfile() {
             })
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to Unfollow")
+        }finally{
+            setUnfollowing(false);
         }
     }
     const handleMessage = async (userId) => {
         try {
+            setMessaging(false);
             const response = await axiosInstance.post(`/conversations/${userId}`);
             const conversation = response.data.data;
             navigate(`/chat?conversationId=${conversation._id}`);
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to Load Chat");
+        }finally{
+            setMessaging(false);
         }
+
     }
     const handleReact = async (postId, type) => {
         const currentPost = posts.find(p => p._id === postId);
@@ -136,17 +149,24 @@ function PublicProfile() {
                             {isFollowing ?
                                 <button
                                     className="btn btn-outline-dark mt-5 "
-                                    onClick={handleUnfollow}>Unfollow
+                                    onClick={handleUnfollow}
+                                    disabled={unfollowing}
+                                    >
+                                        {unfollowing?"Unfollowing the user":"Unfollow"}
                                 </button>
                                 :
                                 <button
                                     className="btn btn-outline-dark mt-5"
-                                    onClick={handleFollow}>Follow
+                                    onClick={handleFollow}
+                                    disabled={following}>
+                                        {following?"Following the user":"Follow"}
                                 </button>
                             }
                             <button
                                 className="btn btn-outline-dark mt-5 ms-5"
-                                onClick={() => handleMessage(user.id)}>Message
+                                onClick={() => handleMessage(user.id)}
+                                disabled={messaging}>
+                                    {messaging?"Messaging":"Message"}
                             </button>
                         </div>
                     </div>
