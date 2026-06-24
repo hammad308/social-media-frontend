@@ -143,6 +143,13 @@ function Chat() {
         },()=>{
             setMessaging(false);
         });
+        setConversations((conversations)=>(
+            conversations.map((conv)=>({
+                ...conv,
+                lastMessage:conv._id===selectedConversation._id? newMessage:conv?.lastMessage,
+                lastMessageAt: conv._id===selectedConversation._id? new Date():conv?.lastMessageAt
+            }))
+        ))
         setNewMessage("");
     }
     useEffect(() => {
