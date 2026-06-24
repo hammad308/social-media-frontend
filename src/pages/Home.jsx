@@ -17,6 +17,7 @@ function Home() {
     const isLoadingMore = useRef(false);
     const oldestPostDataRef = useRef("");
     const hasMoreRef = useRef(true);
+    const [posting,setPosting] = useState(false);
     const [oldestPostData, setOldestPostData] = useState("");
     const [expandedComments, setExpandedComments] = useState(null);
     const navigate = useNavigate();
@@ -78,7 +79,7 @@ function Home() {
             return;
         }
         try {
-            setLoading(true);
+            setPosting(true);
             const formData = new FormData();
             if (content.trim()) {
                 formData.append("content", content);
@@ -92,12 +93,11 @@ function Home() {
             setImage(null);
             setImagePreview(null);
             setPostError(null);
-            setLoading(false);
         } catch (err) {
             setPostError(err.response?.data?.message || "Failed to create post");
         }
         finally {
-            setLoading(false);
+            setPosting(false);
         }
     };
 
@@ -229,8 +229,9 @@ function Home() {
                                 className="btn btn-primary btn-sm px-4"
                                 onClick={handlePost}
                                 style={{ borderRadius: "20px" }}
+                                disabled={posting}
                             >
-                                Post
+                                {posting ? "posting":"post"}
                             </button>
                         </div>
                     </div>
