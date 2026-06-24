@@ -28,7 +28,7 @@ function Profile() {
     }
     if (loading) return <>
         <Navbar />
-        <div className="container mt-5" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
+        <div className="container mt-5" style={{ maxWidth: "680px" }}><p className="text-center text-muted">Loading...</p></div>
     </>
     if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
