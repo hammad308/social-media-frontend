@@ -20,6 +20,7 @@ function Chat() {
     const [showMobileChat, setShowMobileChat] = useState(false);
     const [searchParams] = useSearchParams();
     const conversationId = searchParams.get("conversationId");
+    const [messaging, setMessaging] = useState(false);
     useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
@@ -28,7 +29,7 @@ function Chat() {
                 setCurrentUser(response.data.data);
             } catch (error) {
                 setError(error?.response?.data?.message || "Failed to load user info")
-            }finally{
+            } finally {
                 setLoading(false);
             }
         }
@@ -73,7 +74,7 @@ function Chat() {
                 }
             } catch (error) {
                 setError(error?.response?.data?.messages || "Failed to Load Messages");
-            }finally{
+            } finally {
                 setLoading(false);
             }
         }
@@ -115,19 +116,24 @@ function Chat() {
     }
     useEffect(() => {
         if (!selectedConversation) return;
-        socket.off("receiveMessage");
-        socket.emit("joinConversation", selectedConversation?._id);
-        socket.on("receiveMessage", (message) => {
-            setMessages((prev) => {
-                const exists = prev.some((m) => m?._id === message?._id);
-                if (exists) return prev;
-                return [...prev, message];
-            });
-        });
-        return () => {
-            socket.emit("leaveConversation", selectedConversation?._id)
+        const receiveMessage = () => {
+            setMessaging(true);
             socket.off("receiveMessage");
-        };
+            socket.emit("joinConversation", selectedConversation?._id);
+            socket.on("receiveMessage", (message) => {
+                setMessages((prev) => {
+                    const exists = prev.some((m) => m?._id === message?._id);
+                    if (exists) return prev;
+                    return [...prev, message];
+                });
+            });
+            return () => {
+                socket.emit("leaveConversation", selectedConversation?._id)
+                socket.off("receiveMessage");
+                setMessaging(false);
+            };
+        }
+        receiveMessage();
     }, [selectedConversation]);
     const handleSendMessage = () => {
         if (!newMessage.trim() || !selectedConversation || !currentUser) return;
@@ -169,14 +175,14 @@ function Chat() {
         <Navbar />
         <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-center">Loading...</p></div>
     </>
-    if(error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
+    if (error) return <><Navbar /> <div className="container mt-4" style={{ maxWidth: "680px" }}><p className="text-danger text-center">{error}</p></div></>
     return (
         <>
             <Navbar />
             <div className="container-fluid mt-4" style={{ height: "calc(100vh - 90px)" }}>
                 <div className="row h-100">
                     <div className={`col-md-4 ${showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card rounded h-100 d-flex" style={{ maxHeight: "85vh"}}>
+                        <div className="card rounded h-100 d-flex" style={{ maxHeight: "85vh" }}>
                             {conversations?.length > 0 && <div className="card-body flex-grow-1" style={{ overflowY: "auto" }}>
                                 {conversations.map((conversation) => (
                                     < div key={conversation?._id} className={`
@@ -202,7 +208,7 @@ function Chat() {
                                         <div className="flex-grow-1">
                                             <p className="fw-semibold mb-1" style={{ fontSize: "13px" }}><strong>{conversation?.participants[0]?.username}</strong></p>
                                             <p className="mb-0" style={{ fontSize: "13px" }}>{conversation?.lastMessage}</p>
-                                            <p className="mb-0" style={{ fontSize: "11px" }}>{conversation?.lastMessageAt?(new Date(conversation?.lastMessageAt).toLocaleString()): ""}</p>
+                                            <p className="mb-0" style={{ fontSize: "11px" }}>{conversation?.lastMessageAt ? (new Date(conversation?.lastMessageAt).toLocaleString()) : ""}</p>
                                         </div>
                                     </div>
                                 )
@@ -216,7 +222,7 @@ function Chat() {
                         </div>
                     </div>
                     <div className={`col-md-8 ${!showMobileChat ? "d-none d-md-block" : ""}`}>
-                        <div className="card  rounded h-100 d-flex" style={{ maxHeight: "85vh"}}>
+                        <div className="card  rounded h-100 d-flex" style={{ maxHeight: "85vh" }}>
                             {selectedConversation && (
                                 <div className="card-header bg-white">
                                     <div className="d-flex align-items-center">
@@ -233,7 +239,7 @@ function Chat() {
                                     </div>
                                 </div>
                             )}
-                            <div className="card-body flex-grow-1" ref={messagesContainer} onScroll={handleScroll} style={{minHeight: "0", overflowY: "auto", scrollAnchoring: "auto" }}>
+                            <div className="card-body flex-grow-1" ref={messagesContainer} onScroll={handleScroll} style={{ minHeight: "0", overflowY: "auto", scrollAnchoring: "auto" }}>
                                 {!selectedConversation ?
                                     (<div className="d-flex justify-content-center align-items-center h-100">
                                         <p className="text-muted text-center">Select a Conversation to start chatting</p>
@@ -268,8 +274,10 @@ function Chat() {
                                     onKeyDown={(e) => { e.key === "Enter" && handleSendMessage() }}
                                 />
                                 <button className="btn btn-primary rounded-pill px-4"
-                                    onClick={handleSendMessage}>
-                                    Send
+                                    onClick={handleSendMessage}
+                                    disabled={messaging || !newMessage.trim()}
+                                >
+                                    {messaging ? "Sending" : "Send"}
                                 </button>
                             </div>)}
                         </div>

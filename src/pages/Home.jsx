@@ -294,6 +294,7 @@ function Home() {
                                     <i className={` fs-5 ${post.isLikedByUser ? "text-primary bi bi-hand-thumbs-up-fill" : "text-secondary bi bi-hand-thumbs-up"}`}></i>
                                 </button>
                                 <button className={`btn border flex-fill ${expandedComments === post._id ? "border-primary" : "border-secondary"}`} onClick={(e) => { e.stopPropagation(); setExpandedComments(expandedComments === post._id ? null : post._id) }}>
+                                    <span className="me-3">{post?.commentsCount || 0}</span>
                                     <i className={` fs-5 ${expandedComments === post._id ? "text-primary bi bi-chat-fill" : "text-secondary bi bi-chat"}`}></i>
                                 </button>
                                 <button className={`btn border flex-fill border-secondary`} onClick={(e) => e.stopPropagation()} style={{ cursor: "default" }}>
