@@ -117,7 +117,6 @@ function Chat() {
     useEffect(() => {
         if (!selectedConversation) return;
         const receiveMessage = () => {
-            setMessaging(true);
             socket.off("receiveMessage");
             socket.emit("joinConversation", selectedConversation?._id);
             socket.on("receiveMessage", (message) => {
@@ -130,17 +129,19 @@ function Chat() {
             return () => {
                 socket.emit("leaveConversation", selectedConversation?._id)
                 socket.off("receiveMessage");
-                setMessaging(false);
             };
         }
         receiveMessage();
     }, [selectedConversation]);
     const handleSendMessage = () => {
         if (!newMessage.trim() || !selectedConversation || !currentUser) return;
+        setMessaging(true);
         socket.emit("sendMessage", {
             conversationId: selectedConversation?._id,
             content: newMessage,
             senderId: currentUser?._id
+        },()=>{
+            setMessaging(false);
         });
         setNewMessage("");
     }
