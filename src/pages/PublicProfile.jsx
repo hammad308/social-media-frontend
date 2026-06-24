@@ -13,14 +13,15 @@ function PublicProfile() {
     const navigate = useNavigate();
     const [expandedComments, setExpandedComments] = useState(null);
     const [posts,setPosts] = useState(null);
-
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axiosInstance.get(`/users/${userId}`);
-                setUser(response.data.data);
-                setPosts(response.data.data?.posts);
-                setIsFollowing(response.data.data.isFollowing || false);
+                const response1 = await axiosInstance.get(`/users/${userId}`);
+                setUser(response1?.data?.data);
+                const response2= await axiosInstance.get("/users/me");
+                if(response1?.data?.data?.id == response2?.data?.data?._id) return navigate("/profile");
+                setPosts(response1?.data?.data?.posts);
+                setIsFollowing(response1?.data?.data?.isFollowing || false);
             } catch (error) {
                 setError(error?.response?.data?.message || "Failed to load profile");
             } finally {
