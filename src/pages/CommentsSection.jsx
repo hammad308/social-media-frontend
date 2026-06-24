@@ -10,6 +10,7 @@ function CommentsSection({ postId }) {
     const hasMoreRef = useRef(true);
     const oldestCommentDataRef = useRef("");
     const isLoadingMore = useRef(false);
+    const [commenting,setCommenting] = useState(false);
     useEffect(() => {
         hasMoreRef.current = hasMore;
     }, [hasMore]);
@@ -36,8 +37,9 @@ function CommentsSection({ postId }) {
         fetchComments();
     }, [postId]);
     const handleAddComment = async () => {
-        try {
             if (!editComment.trim()) return;
+        try {
+            setCommenting(true);
             const response = await axiosInstance.post(`/posts/${postId}/comments`, {
                 content: editComment
             });
@@ -46,6 +48,8 @@ function CommentsSection({ postId }) {
             setError(null);
         } catch (error) {
             setError(error?.response?.data?.message || "Failed to add comment");
+        }finally{
+            setCommenting(false);
         }
     }
     const laodMoreComments = async () => {
@@ -117,8 +121,8 @@ function CommentsSection({ postId }) {
                             e.stopPropagation();
                             
                         }}
-                        disabled={!editComment.trim()}
-                    >Comment</button>
+                        disabled={commenting || !editComment.trim()}
+                    >{commenting? "Commenting...":"Comment"}</button>
                 </div>
             </div>
         </>
